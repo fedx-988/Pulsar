@@ -28,6 +28,7 @@ namespace Pulsar.Server.Forms
             InitializeComponent();
 
             DarkModeManager.ApplyDarkMode(this);
+            ScreenCaptureHider.ScreenCaptureHider.Apply(this.Handle);
 
             ToggleListenerSettings(!listenServer.Listening);
 
@@ -38,6 +39,7 @@ namespace Pulsar.Server.Forms
         {
             ncPort.Value = Settings.ListenPort;
             chkDarkMode.Checked = Settings.DarkMode;
+            chkHideFromScreenCapture.Checked = Settings.HideFromScreenCapture;
             chkIPv6Support.Checked = Settings.IPv6Support;
             chkAutoListen.Checked = Settings.AutoListen;
             chkPopup.Checked = Settings.ShowPopup;
@@ -143,6 +145,7 @@ namespace Pulsar.Server.Forms
 
             Settings.ListenPort = port;
             Settings.DarkMode = chkDarkMode.Checked;
+            Settings.HideFromScreenCapture = chkHideFromScreenCapture.Checked;
             Settings.IPv6Support = chkIPv6Support.Checked;
             Settings.AutoListen = chkAutoListen.Checked;
             Settings.ShowPopup = chkPopup.Checked;
@@ -232,6 +235,7 @@ namespace Pulsar.Server.Forms
             txtNoIPPass.Enabled = enable;
             chkShowPassword.Enabled = enable;
         }
+
         private void TelegramControlHandler(bool enable)
         {
             txtTelegramToken.Enabled = enable;
@@ -307,6 +311,12 @@ namespace Pulsar.Server.Forms
         private void txtNoIPHost_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void hideFromScreenCapture_CheckedChanged(object sender, EventArgs e)
+        {
+            ScreenCaptureHider.ScreenCaptureHider.FormsHiddenFromScreenCapture = chkHideFromScreenCapture.Checked;
+            ScreenCaptureHider.ScreenCaptureHider.Refresh();
         }
     }
 }
